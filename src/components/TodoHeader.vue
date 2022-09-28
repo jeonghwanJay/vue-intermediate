@@ -1,7 +1,9 @@
 <template>
-  <div>
-    Header
-  </div>
+  <header>
+    <h1>
+      Todo it!
+    </h1>
+  </header>
 </template>
 
 <script>
