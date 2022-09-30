@@ -1,9 +1,9 @@
 <template>
   <section>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in todoItems" class="shadow" v-bind:key="todoItem">
-        <i class="checkBtn fa-solid fa-check" v-on:click="toggleComplete"></i>
-          <span>{{todoItem}}</span> 
+      <li v-for="(todoItem, index) in todoItems" class="shadow" v-bind:key="todoItem.item">
+        <i class="checkBtn fa-solid fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
+          <span v-bind:class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span> 
           <span class="removeBtn">
             <i class="removeBtn fa-solid fa-trash" v-on:click="removeTodo(todoItem,index)"></i>
           </span>
@@ -23,7 +23,10 @@ data: function() {
   created: function() {
     if(localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
-        this.todoItems.push(localStorage.key(i))
+        // localStorage.getItem(localStorage.key(i))
+        // console.log(typeof localStorage.getItem(localStorage.key(i)));
+        this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
+
       } 
     }
   },
@@ -32,8 +35,10 @@ data: function() {
       localStorage.removeItem(todoItem)
       this.todoItems.splice(index,1)
     },
-    toggleComplete: function() {
-      console.log('ddd');
+    toggleComplete: function(todoItem) {
+      todoItem.completed = !todoItem.completed
+      localStorage.removeItem(todoItem.item)
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
     }
   }
 }
