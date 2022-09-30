@@ -1,7 +1,7 @@
 <template>
   <section>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in todoItems" class="shadow" v-bind:key="todoItem.item">
+      <li v-for="(todoItem, index) in propsdata" class="shadow" v-bind:key="todoItem.item">
         <i class="checkBtn fa-solid fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
           <span v-bind:class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span> 
           <span class="removeBtn">
@@ -15,21 +15,7 @@
 
 <script>
 export default {
-data: function() {
-  return {
-    todoItems: [],
-  }
-},
-  created: function() {
-    if(localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        // localStorage.getItem(localStorage.key(i))
-        // console.log(typeof localStorage.getItem(localStorage.key(i)));
-        this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
-
-      } 
-    }
-  },
+  props: ['propsdata'],
   methods: {
     removeTodo: function(todoItem, index) {
       localStorage.removeItem(todoItem)
