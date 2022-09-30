@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <ul>
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem">
-          {{todoItem}} <button v-on:click="removeTodo(todoItem,index)">Delete</button>
+  <section>
+    <transition-group name="list" tag="ul">
+      <li v-for="(todoItem, index) in todoItems" class="shadow" v-bind:key="todoItem">
+        <i class="checkBtn fa-solid fa-check" v-on:click="toggleComplete"></i>
+          <span>{{todoItem}}</span> 
+          <span class="removeBtn">
+            <i class="removeBtn fa-solid fa-trash" v-on:click="removeTodo(todoItem,index)"></i>
+          </span>
+            
       </li>
-    </ul>
-    
-  </div>
-  
+    </transition-group> 
+  </section>
 </template>
 
 <script>
@@ -28,11 +31,45 @@ data: function() {
     removeTodo: function(todoItem, index) {
       localStorage.removeItem(todoItem)
       this.todoItems.splice(index,1)
+    },
+    toggleComplete: function() {
+      console.log('ddd');
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+ul {
+  list-style-type: none;
+  padding-left: 0px;
+  margin-top: 0;
+  text-align: left;
+}
+li {
+  display: flex;
+  min-height: 50px;
+  height: 50px;
+  line-height: 50px;
+  margin: 0.5rem 0;
+  padding: 0 0.9rem;
+  background: white;
+  border-radius: 5px;
+}
+.checkBtn {
+  line-height: 45px;
+  color: #62acde;
+  margin-right: 5px;
+}
+.checkBtnCompleted {
+  color: #b3adad;
+}
+.textCompleted {
+  text-decoration: line-through;
+  color: #b3adad;
+}
+.removeBtn {
+  margin-left: auto;
+  color: #de4343;
+}
 </style>
