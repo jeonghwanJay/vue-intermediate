@@ -1,8 +1,8 @@
 <template>
   <div>
     <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
-    <TodoList v-bind:propsdata="todoItems"></TodoList>
+    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
+    <TodoList v-bind:propsdata="todoItems" v-on:removeItem="removeOneItem"></TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -13,7 +13,14 @@ import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
 export default {
+    components: {
+    TodoHeader,
+    TodoInput,
+    TodoList,
+    TodoFooter,
+  },
   data: function() {
+    
   return {
     todoItems: [],
   }
@@ -21,17 +28,20 @@ export default {
   created: function() {
     if(localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
-        // localStorage.getItem(localStorage.key(i))
-        // console.log(typeof localStorage.getItem(localStorage.key(i)));
         this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
       } 
     }
   },
-  components: {
-    TodoHeader,
-    TodoInput,
-    TodoList,
-    TodoFooter,
+  methods: {
+    addOneItem: function(todoItem) {
+      const obj = {completed: false, item: todoItem};
+      localStorage.setItem(todoItem, JSON.stringify(obj));
+      this.todoItems.push(obj)
+    },
+    removeOneItem: function(todoItem, index) {
+      localStorage.removeItem(todoItem.item)
+      this.todoItems.splice(index,1)
+    }
   }
 }
 </script>
