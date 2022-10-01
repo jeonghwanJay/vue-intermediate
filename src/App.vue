@@ -25,18 +25,19 @@ export default {
     todoItems: [],
   }
 },
-  created() {
-    if(localStorage.length > 0) {
-      for (let i = 0; i < localStorage.length; i++) {
-        this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
-      } 
-    }
-  },
+  // created() {
+  //   if(localStorage.length > 0) {
+  //     for (let i = 0; i < localStorage.length; i++) {
+  //       this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
+  //     } 
+  //   }
+  // },
   methods: {
     addOneItem(todoItem) {
       const obj = {completed: false, item: todoItem};
       localStorage.setItem(todoItem, JSON.stringify(obj));
-      this.todoItems.push(obj)
+      // this.todoItems.push(obj)
+      this.$store.state.todoItems.push(obj);
     },
     removeOneItem(todoItem, index) {
       localStorage.removeItem(todoItem.item)
